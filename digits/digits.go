@@ -5,7 +5,7 @@ import (
 )
 
 func DigPow(n, p int) int {
-	sum := GetPowSum(GetDigits(n), float64(p))
+	sum := getPowSum(getDigits(n), float64(p))
 
 	if sum % n == 0 {
 		return sum / n
@@ -15,7 +15,7 @@ func DigPow(n, p int) int {
 
 }
 
-func GetDigits(n int) []int {
+func getDigits(n int) []int {
 	var result []int
 	for n > 0 {
 		mod := n % 10
@@ -27,7 +27,7 @@ func GetDigits(n int) []int {
 	return result
 }
 
-func GetPowSum(nums []int, pow float64) int {
+func getPowSum(nums []int, pow float64) int {
 	var result float64
 
 	for _, num := range nums {
