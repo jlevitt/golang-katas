@@ -37,7 +37,7 @@ func TestPushAndPop(t *testing.T) {
 	val, ok := s.Pop()
 
 	assert.True(t, ok)
-	assert.Equal(t, 3, val)
+	assert.Equal(t, 3.0, val)
 	assert.Equal(t, 2, s.Size())
 
 	s.Push(4)
@@ -45,17 +45,17 @@ func TestPushAndPop(t *testing.T) {
 
 	val, ok = s.Pop()
 	assert.True(t, ok)
-	assert.Equal(t, 4, val)
+	assert.Equal(t, 4.0, val)
 	assert.Equal(t, 2, s.Size())
 
 	val, ok = s.Pop()
 	assert.True(t, ok)
-	assert.Equal(t, 2, val)
+	assert.Equal(t, 2.0, val)
 	assert.Equal(t, 1, s.Size())
 
 	val, ok = s.Pop()
 	assert.True(t, ok)
-	assert.Equal(t, 1, val)
+	assert.Equal(t, 1.0, val)
 	assert.Equal(t, 0, s.Size())
 
 	_, ok = s.Pop()

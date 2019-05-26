@@ -1,18 +1,18 @@
 package stack
 
 type stack struct {
-	values []int
+	values []float64
 }
 
 func NewStack() stack {
 	return stack{}
 }
 
-func (s *stack) Push(value int) {
+func (s *stack) Push(value float64) {
 	s.values = append(s.values, value)
 }
 
-func (s *stack) Pop() (int, bool) {
+func (s *stack) Pop() (float64, bool) {
 	if len(s.values) == 0 {
 		return 0, false
 	}
