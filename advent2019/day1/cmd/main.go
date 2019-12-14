@@ -11,7 +11,14 @@ func main() {
 
 	totalFuelRequired := 0
 	for _, mass := range moduleMasses {
-		totalFuelRequired += day1.FuelRequired(mass)
+		fuelRequired := day1.FuelRequired(mass)
+		totalFuelRequired += fuelRequired
+
+		extraFuel := day1.FuelRequired(fuelRequired)
+		for extraFuel > 0 {
+			totalFuelRequired += extraFuel
+			extraFuel = day1.FuelRequired(extraFuel)
+		}
 	}
 
 	fmt.Printf("Total fuel required: %v\n", totalFuelRequired)
