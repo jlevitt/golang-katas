@@ -3,20 +3,21 @@ package day2
 import (
 	"errors"
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 )
 
-type program = []int
+type Program = []int
 type programCounter = int
 
 const InstructionAdd = 1
 const InstructionMul = 2
 const InstructionHalt = 99
 
+const SignalHalt = -1
+
 type opcode interface {
-	execute(programCounter, program) programCounter
+	execute(programCounter, Program) programCounter
 }
 
 type binaryOpCode struct {
@@ -25,7 +26,7 @@ type binaryOpCode struct {
 	outputAddr int
 }
 
-func (op binaryOpCode) args(p program) (int, int) {
+func (op binaryOpCode) args(p Program) (int, int) {
 	return p[op.leftAddr], p[op.rightAddr]
 }
 
@@ -33,7 +34,7 @@ func (op binaryOpCode) advance(pc programCounter) int {
 	return pc + 4
 }
 
-func (op binaryOpCode) store(p program, addr int, value int) {
+func (op binaryOpCode) store(p Program, addr int, value int) {
 	p[addr] = value
 }
 
@@ -41,7 +42,7 @@ type add struct {
 	binaryOpCode
 }
 
-func (op add) execute(pc programCounter, p program) programCounter {
+func (op add) execute(pc programCounter, p Program) programCounter {
 	left, right := op.args(p)
 	result := left + right
 	op.store(p, op.outputAddr, result)
@@ -54,7 +55,7 @@ type multiply struct {
 	binaryOpCode
 }
 
-func (op multiply) execute(pc programCounter, p program) programCounter {
+func (op multiply) execute(pc programCounter, p Program) programCounter {
 	left, right := op.args(p)
 	result := left * right
 	op.store(p, op.outputAddr, result)
@@ -65,14 +66,11 @@ func (op multiply) execute(pc programCounter, p program) programCounter {
 type halt struct {
 }
 
-func (op halt) execute(pc programCounter, p program) programCounter {
-	fmt.Print(toString(p))
-	os.Exit(0)
-
-	return -1
+func (op halt) execute(pc programCounter, p Program) programCounter {
+	return SignalHalt
 }
 
-func parseOpcode(pc programCounter, p program) (opcode, error) {
+func parseOpcode(pc programCounter, p Program) (opcode, error) {
 	opcodeInt := p[pc]
 
 	if opcodeInt == InstructionAdd {
@@ -102,12 +100,16 @@ func parseOpcode(pc programCounter, p program) (opcode, error) {
 	}
 }
 
-func SetProgramAlarm(p program) {
-	p[1] = 12
-	p[2] = 2
+func SetNounVerb(p Program, noun int, verb int) {
+	p[1] = noun
+	p[2] = verb
 }
 
-func RunProgram(p program) (string, error) {
+func SetProgramAlarm(p Program) {
+	SetNounVerb(p, 12, 2)
+}
+
+func RunProgram(p Program) (string, error) {
 	pc := 0
 
 	for pc < len(p) {
@@ -117,15 +119,19 @@ func RunProgram(p program) (string, error) {
 			return "", err
 		}
 		pc = op.execute(pc, p)
+
+		if pc == SignalHalt {
+			break
+		}
 	}
 
 	return toString(p), nil
 }
 
-func ParseProgram(programStr string) (program, error) {
+func ParseProgram(programStr string) (Program, error) {
 	words := strings.Split(programStr, ",")
 
-	var result program
+	var result Program
 	for i, wordStr := range words {
 		word, err := strconv.Atoi(wordStr)
 		if err != nil {
@@ -137,7 +143,7 @@ func ParseProgram(programStr string) (program, error) {
 	return result, nil
 }
 
-func toString(p program) string {
+func toString(p Program) string {
 	var words []string
 
 	for _, word := range p {
