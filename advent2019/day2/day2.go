@@ -102,24 +102,16 @@ func parseOpcode(pc programCounter, p program) (opcode, error) {
 	}
 }
 
-func setProgramAlarm(p program) {
+func SetProgramAlarm(p program) {
 	p[1] = 12
 	p[2] = 2
 }
 
-func RunProgram(programStr string) (string, error) {
-	p, err := parseProgram(programStr)
-	if err != nil {
-		return "", err
-	}
-
-	setProgramAlarm(p)
-
-	var op opcode
+func RunProgram(p program) (string, error) {
 	pc := 0
 
 	for pc < len(p) {
-		op, err = parseOpcode(pc, p)
+		op, err := parseOpcode(pc, p)
 
 		if err != nil {
 			return "", err
@@ -130,7 +122,7 @@ func RunProgram(programStr string) (string, error) {
 	return toString(p), nil
 }
 
-func parseProgram(programStr string) (program, error) {
+func ParseProgram(programStr string) (program, error) {
 	words := strings.Split(programStr, ",")
 
 	var result program
