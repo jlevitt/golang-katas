@@ -4,13 +4,20 @@ import (
 	"fmt"
 	"github.com/jlevitt/katas/advent2019"
 	"github.com/jlevitt/katas/advent2019/day1"
+	"log"
+	"strconv"
 )
 
 func main() {
-	moduleMasses := advent2019.ReadInput()
+	moduleMasses := advent2019.ReadInputLines()
 
 	totalFuelRequired := 0
-	for _, mass := range moduleMasses {
+	for _, massStr := range moduleMasses {
+		mass, err := strconv.Atoi(massStr)
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		fuelRequired := day1.FuelRequired(mass)
 		totalFuelRequired += fuelRequired
 

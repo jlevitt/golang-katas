@@ -4,24 +4,20 @@ import (
 	"bufio"
 	"log"
 	"os"
-	"strconv"
 )
 
-func ReadInput() []int{
+func ReadInputLines() []string{
 	file, err := os.Open("input.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var result []int
+	var result []string
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		reading, err := strconv.Atoi(scanner.Text())
-		if err != nil {
-			log.Fatal(err)
-		}
+		line := scanner.Text()
 
-		result = append(result, reading)
+		result = append(result, line)
 	}
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
