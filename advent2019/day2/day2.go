@@ -3,6 +3,8 @@ package day2
 import (
 	"errors"
 	"fmt"
+	"github.com/jlevitt/katas/advent2019"
+	"log"
 	"strconv"
 	"strings"
 )
@@ -66,6 +68,63 @@ func (op multiply) execute(pc programCounter, p Program) programCounter {
 type halt struct {
 }
 
+func PartOne() {
+	p := loadProgram()
+
+	SetProgramAlarm(p)
+
+	program, err := RunProgram(p)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Print(program)
+}
+
+func PartTwo() {
+	initialProgram := loadProgram()
+
+	const expectedOutput = 19690720
+
+	noun, verb, err := searchForOutput(initialProgram, expectedOutput)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("Found noun=%v, verb=%v\n", noun, verb)
+}
+
+func loadProgram() Program {
+	lines := advent2019.ReadInputLines()
+	p, err := ParseProgram(lines[0])
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return p
+}
+
+func searchForOutput(initialProgram Program, expectedOutput int) (int, int, error){
+	for noun := 0; noun <= 99; noun++ {
+		for verb := 0; verb <= 99; verb++ {
+			p := make(Program, len(initialProgram))
+			copy(p, initialProgram)
+			SetNounVerb(p, noun, verb)
+			_, err := RunProgram(p)
+			if err != nil {
+				return -1, -1, err
+			}
+			output := p[0]
+
+			if output == expectedOutput {
+				return noun, verb, nil
+			}
+		}
+	}
+
+	return -1, -1, errors.New("expected output not found")
+}
 func (op halt) execute(pc programCounter, p Program) programCounter {
 	return SignalHalt
 }
