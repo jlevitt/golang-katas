@@ -2,19 +2,8 @@ package wiring
 
 import "math"
 
-type Point struct {
-	x, y int
-}
-
 type DirectionVector struct {
 	deltaX, deltaY int
-}
-
-func (p Point) translate(v DirectionVector) Point {
-	p.x += v.deltaX
-	p.y += v.deltaY
-
-	return p
 }
 
 var directionVectors = map[Direction]DirectionVector{
@@ -22,6 +11,21 @@ var directionVectors = map[Direction]DirectionVector{
 	Down: {0, -1},
 	Left: {-1, 0},
 	Right: {1, 0},
+}
+
+type Point struct {
+	x, y int
+}
+
+func (p Point) Distance() int {
+	return int(math.Abs(float64(p.x)) + math.Abs(float64(p.y)))
+}
+
+func (p Point) translate(v DirectionVector) Point {
+	p.x += v.deltaX
+	p.y += v.deltaY
+
+	return p
 }
 
 type WireGrid struct {
@@ -57,8 +61,4 @@ func (g *WireGrid) AddWire(wire Wire) {
 			g.visited[cursor] = wireNumber
 		}
 	}
-}
-
-func (p Point) Distance() int {
-	return int(math.Abs(float64(p.x)) + math.Abs(float64(p.y)))
 }

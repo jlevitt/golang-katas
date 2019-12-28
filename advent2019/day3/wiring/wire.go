@@ -27,10 +27,6 @@ type Segment struct {
 	length int
 }
 
-type Wire struct {
-	segments []Segment
-}
-
 func NewSegment(description string) (Segment, error) {
 	descRunes := []rune(description)
 	directionRune := descRunes[0]
@@ -46,6 +42,10 @@ func NewSegment(description string) (Segment, error) {
 		direction: direction,
 		length: length,
 	}, nil
+}
+
+type Wire struct {
+	segments []Segment
 }
 
 func NewWire(description string) (Wire, error) {
