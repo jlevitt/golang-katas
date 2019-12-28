@@ -68,8 +68,8 @@ func (op multiply) execute(pc programCounter, p Program) programCounter {
 type halt struct {
 }
 
-func PartOne() {
-	p := loadProgram()
+func PartOne(path string) {
+	p := loadProgram(path)
 
 	SetProgramAlarm(p)
 
@@ -82,8 +82,8 @@ func PartOne() {
 	fmt.Print(program)
 }
 
-func PartTwo() {
-	initialProgram := loadProgram()
+func PartTwo(path string) {
+	initialProgram := loadProgram(path)
 
 	const expectedOutput = 19690720
 
@@ -95,8 +95,8 @@ func PartTwo() {
 	fmt.Printf("Found noun=%v, verb=%v\n", noun, verb)
 }
 
-func loadProgram() Program {
-	lines := advent2019.ReadInputLines()
+func loadProgram(path string) Program {
+	lines := advent2019.ReadInputLines(path)
 	p, err := ParseProgram(lines[0])
 	if err != nil {
 		log.Fatal(err)

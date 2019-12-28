@@ -7,8 +7,8 @@ import (
 	"strconv"
 )
 
-func PartTwo() {
-	moduleMasses := advent2019.ReadInputLines()
+func PartTwo(path string) {
+	moduleMasses := advent2019.ReadInputLines(path)
 
 	totalFuelRequired := 0
 	for _, massStr := range moduleMasses {

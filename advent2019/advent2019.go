@@ -2,12 +2,13 @@ package advent2019
 
 import (
 	"bufio"
+	"github.com/pkg/errors"
 	"log"
 	"os"
 )
 
-func ReadInputLines() []string{
-	file, err := os.Open("input.txt")
+func ReadInputLines(path string) []string{
+	file, err := os.Open(path)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -24,4 +25,19 @@ func ReadInputLines() []string{
 	}
 
 	return result
+}
+
+func Min(values []int) (int, error) {
+	if len(values) == 0 {
+		return 0, errors.New("values is empty")
+	}
+
+	min := values[0]
+	for _, v := range values {
+		if v < min {
+			min = v
+		}
+	}
+
+	return min, nil
 }
