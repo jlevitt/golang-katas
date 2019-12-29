@@ -46,19 +46,35 @@ func NewSegment(description string) (Segment, error) {
 
 type Wire struct {
 	segments []Segment
+	visited map[Point]int
+	length int
 }
 
-func NewWire(description string) (Wire, error) {
+func NewWire(description string) (*Wire, error) {
 	segmentDescs := strings.Split(description, ",")
 
 	wire := Wire{}
 	for i, desc := range segmentDescs {
 		segment, err := NewSegment(desc)
 		if err != nil {
-			return Wire{}, errors.Wrapf(err, "error parsing wire at position %v", i)
+			return nil, errors.Wrapf(err, "error parsing wire at position %v", i)
 		}
 		wire.segments = append(wire.segments, segment)
 	}
 
-	return wire, nil
+	wire.visited = make(map[Point]int)
+
+	return &wire, nil
+}
+
+func (w *Wire) Visit(p Point) {
+	w.length++
+
+	if _, ok := w.visited[p]; !ok {
+		w.visited[p] = w.length
+	}
+}
+
+func (w *Wire) DistanceAt(p Point) int {
+	return w.visited[p]
 }

@@ -26,6 +26,7 @@ func main() {
 		key{day: 2, part: 1}: day2.PartOne,
 		key{day: 2, part: 2}: day2.PartTwo,
 		key{day: 3, part: 1}: day3.PartOne,
+		key{day: 3, part: 2}: day3.PartTwo,
 	}
 
 	if f, ok := dayPartLookup[key{day, part}]; ok {

@@ -31,7 +31,6 @@ func (p Point) translate(v DirectionVector) Point {
 type WireGrid struct {
 	wires int
 	visited map[Point]int
-	points []Point
 	Intersections []Point
 }
 
@@ -42,7 +41,7 @@ func NewWireGrid() *WireGrid {
 	return &g
 }
 
-func (g *WireGrid) AddWire(wire Wire) {
+func (g *WireGrid) AddWire(wire *Wire) {
 	cursor := Point{0, 0}
 	g.wires++
 	wireNumber := g.wires
@@ -53,7 +52,7 @@ func (g *WireGrid) AddWire(wire Wire) {
 		for step := 0; step < segment.length; step++ {
 			cursor = cursor.translate(v)
 
-			g.points = append(g.points, cursor)
+			wire.Visit(cursor)
 
 			if visitedBy, ok := g.visited[cursor]; ok && visitedBy < wireNumber {
 				g.Intersections = append(g.Intersections, cursor)
