@@ -5,6 +5,7 @@ import (
 	"github.com/jlevitt/katas/advent2019/day1"
 	"github.com/jlevitt/katas/advent2019/day2"
 	"github.com/jlevitt/katas/advent2019/day3"
+	"github.com/jlevitt/katas/advent2019/day4"
 	"log"
 )
 
@@ -27,6 +28,7 @@ func main() {
 		key{day: 2, part: 2}: day2.PartTwo,
 		key{day: 3, part: 1}: day3.PartOne,
 		key{day: 3, part: 2}: day3.PartTwo,
+		key{day: 4, part: 1}: day4.PartOne,
 	}
 
 	if f, ok := dayPartLookup[key{day, part}]; ok {
