@@ -37,7 +37,7 @@ func main() {
 		key{year: 2019, day: 3, part: 1}: year2019day3.PartOne,
 		key{year: 2019, day: 3, part: 2}: year2019day3.PartTwo,
 		key{year: 2019, day: 4, part: 1}: year2019day4.PartOne,
-		key{year: 2020, day: 1, part: 1}: year2020day1.PartOne,
+		key{year: 2020, day: 1, part: 2}: year2020day1.PartTwo,
 	}
 
 	if f, ok := dayPartLookup[key{year, day, part}]; ok {
