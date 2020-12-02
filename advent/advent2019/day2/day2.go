@@ -3,10 +3,10 @@ package day2
 import (
 	"errors"
 	"fmt"
-	"github.com/jlevitt/katas/advent2019"
 	"log"
 	"strconv"
 	"strings"
+	"github.com/jlevitt/katas/advent"
 )
 
 type Program = []int
@@ -96,7 +96,7 @@ func PartTwo(path string) {
 }
 
 func loadProgram(path string) Program {
-	lines := advent2019.ReadInputLines(path)
+	lines := advent.ReadInputLines(path)
 	p, err := ParseProgram(lines[0])
 	if err != nil {
 		log.Fatal(err)

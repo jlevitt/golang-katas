@@ -2,13 +2,13 @@ package day3
 
 import (
 	"fmt"
-	"github.com/jlevitt/katas/advent2019"
-	"github.com/jlevitt/katas/advent2019/day3/wiring"
+	"github.com/jlevitt/katas/advent/advent2019/day3/wiring"
 	"log"
+	"github.com/jlevitt/katas/advent"
 )
 
 func PartOne(path string) {
-	lines := advent2019.ReadInputLines(path)
+	lines := advent.ReadInputLines(path)
 	grid := wiring.NewWireGrid()
 
 	for i, description := range lines {
@@ -24,7 +24,7 @@ func PartOne(path string) {
 		intersectionDistances = append(intersectionDistances, intersection.Distance())
 	}
 
-	shortestDistance, err := advent2019.Min(intersectionDistances)
+	shortestDistance, err := advent.Min(intersectionDistances)
 	if err != nil {
 		log.Fatal("No intersections found", err)
 	}
@@ -33,7 +33,7 @@ func PartOne(path string) {
 }
 
 func PartTwo(path string) {
-	lines := advent2019.ReadInputLines(path)
+	lines := advent.ReadInputLines(path)
 	grid := wiring.NewWireGrid()
 
 	wire1, err := wiring.NewWire(lines[0])
@@ -54,7 +54,7 @@ func PartTwo(path string) {
 		intersectionDistances = append(intersectionDistances, distance)
 	}
 
-	shortestDistance, err := advent2019.Min(intersectionDistances)
+	shortestDistance, err := advent.Min(intersectionDistances)
 	if err != nil {
 		log.Fatal("No intersections found", err)
 	}
