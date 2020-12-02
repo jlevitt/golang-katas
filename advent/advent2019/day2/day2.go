@@ -6,7 +6,8 @@ import (
 	"log"
 	"strconv"
 	"strings"
-	"github.com/jlevitt/katas/advent"
+
+	"github.com/jlevitt/katas/advent/input"
 )
 
 type Program = []int
@@ -23,8 +24,8 @@ type opcode interface {
 }
 
 type binaryOpCode struct {
-	leftAddr int
-	rightAddr int
+	leftAddr   int
+	rightAddr  int
 	outputAddr int
 }
 
@@ -52,7 +53,6 @@ func (op add) execute(pc programCounter, p Program) programCounter {
 	return op.advance(pc)
 }
 
-
 type multiply struct {
 	binaryOpCode
 }
@@ -68,7 +68,7 @@ func (op multiply) execute(pc programCounter, p Program) programCounter {
 type halt struct {
 }
 
-func PartOne(path string) {
+func PartOne(path string) error {
 	p := loadProgram(path)
 
 	SetProgramAlarm(p)
@@ -76,27 +76,31 @@ func PartOne(path string) {
 	program, err := RunProgram(p)
 
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	fmt.Print(program)
+
+	return nil
 }
 
-func PartTwo(path string) {
+func PartTwo(path string) error {
 	initialProgram := loadProgram(path)
 
 	const expectedOutput = 19690720
 
 	noun, verb, err := searchForOutput(initialProgram, expectedOutput)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	fmt.Printf("Found noun=%v, verb=%v\n", noun, verb)
+
+	return nil
 }
 
 func loadProgram(path string) Program {
-	lines := advent.ReadInputLines(path)
+	lines := input.ReadInputLines(path)
 	p, err := ParseProgram(lines[0])
 	if err != nil {
 		log.Fatal(err)
@@ -105,7 +109,7 @@ func loadProgram(path string) Program {
 	return p
 }
 
-func searchForOutput(initialProgram Program, expectedOutput int) (int, int, error){
+func searchForOutput(initialProgram Program, expectedOutput int) (int, int, error) {
 	for noun := 0; noun <= 99; noun++ {
 		for verb := 0; verb <= 99; verb++ {
 			p := make(Program, len(initialProgram))
@@ -143,13 +147,13 @@ func parseOpcode(pc programCounter, p Program) (opcode, error) {
 
 		return op, nil
 	} else if opcodeInt == InstructionMul {
-			op := multiply{
-				binaryOpCode{
-					leftAddr: p[pc + 1],
-					rightAddr: p[pc + 2],
-					outputAddr: p[pc + 3],
-				},
-			}
+		op := multiply{
+			binaryOpCode{
+				leftAddr:   p[pc+1],
+				rightAddr:  p[pc+2],
+				outputAddr: p[pc+3],
+			},
+		}
 
 		return op, nil
 	} else if opcodeInt == InstructionHalt {

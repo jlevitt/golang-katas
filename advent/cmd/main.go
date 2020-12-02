@@ -3,11 +3,13 @@ package main
 import (
 	"flag"
 	"log"
+	"strconv"
 
 	year2019day1 "github.com/jlevitt/katas/advent/advent2019/day1"
 	year2019day2 "github.com/jlevitt/katas/advent/advent2019/day2"
 	year2019day3 "github.com/jlevitt/katas/advent/advent2019/day3"
 	year2019day4 "github.com/jlevitt/katas/advent/advent2019/day4"
+	year2020day1 "github.com/jlevitt/katas/advent/advent2020/day1"
 )
 
 type key struct {
@@ -21,20 +23,28 @@ func main() {
 	flag.IntVar(&year, "year", 2019, "year")
 	flag.IntVar(&day, "day", 1, "day 1 or 2")
 	flag.IntVar(&part, "part", 1, "part 1 or 2")
-	flag.StringVar(&path, "path", "input.txt", "path to the program's input")
+	flag.StringVar(&path, "path", "", "path to the program's input")
 	flag.Parse()
 
-	dayPartLookup := map[key]func(string){
+	if path == "" {
+		path = "day" + strconv.Itoa(day) + ".txt"
+	}
+
+	dayPartLookup := map[key]func(string) error{
 		key{year: 2019, day: 1, part: 2}: year2019day1.PartTwo,
 		key{year: 2019, day: 2, part: 1}: year2019day2.PartOne,
 		key{year: 2019, day: 2, part: 2}: year2019day2.PartTwo,
 		key{year: 2019, day: 3, part: 1}: year2019day3.PartOne,
 		key{year: 2019, day: 3, part: 2}: year2019day3.PartTwo,
 		key{year: 2019, day: 4, part: 1}: year2019day4.PartOne,
+		key{year: 2020, day: 1, part: 1}: year2020day1.PartOne,
 	}
 
 	if f, ok := dayPartLookup[key{year, day, part}]; ok {
-		f(path)
+		err := f(path)
+		if err != nil {
+			log.Fatalf("Got error: %\n", err)
+		}
 	} else {
 		log.Fatal("advent year/day/part not found - part is either 1 or 2 and day is 1-25")
 	}

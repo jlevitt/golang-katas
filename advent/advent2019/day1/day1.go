@@ -2,19 +2,19 @@ package day1
 
 import (
 	"fmt"
-	"log"
 	"strconv"
-	"github.com/jlevitt/katas/advent"
+
+	"github.com/jlevitt/katas/advent/input"
 )
 
-func PartTwo(path string) {
-	moduleMasses := advent.ReadInputLines(path)
+func PartTwo(path string) error {
+	moduleMasses := input.ReadInputLines(path)
 
 	totalFuelRequired := 0
 	for _, massStr := range moduleMasses {
 		mass, err := strconv.Atoi(massStr)
 		if err != nil {
-			log.Fatal(err)
+			return err
 		}
 
 		fuelRequired := FuelRequired(mass)
@@ -28,8 +28,10 @@ func PartTwo(path string) {
 	}
 
 	fmt.Printf("Total fuel required: %v\n", totalFuelRequired)
+
+	return nil
 }
 
 func FuelRequired(moduleMass int) int {
-	return moduleMass / 3 - 2
+	return moduleMass/3 - 2
 }
