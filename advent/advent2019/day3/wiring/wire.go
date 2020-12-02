@@ -15,7 +15,7 @@ const (
 	Right
 )
 
-var directions = map[rune]Direction {
+var directions = map[rune]Direction{
 	'U': Up,
 	'D': Down,
 	'L': Left,
@@ -24,7 +24,7 @@ var directions = map[rune]Direction {
 
 type Segment struct {
 	direction Direction
-	length int
+	length    int
 }
 
 func NewSegment(description string) (Segment, error) {

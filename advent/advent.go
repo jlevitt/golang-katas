@@ -1,9 +1,9 @@
-package advent2019
+package advent
 
 import (
 	"bufio"
-	"github.com/pkg/errors"
 	"log"
+	"errors"
 	"os"
 )
 

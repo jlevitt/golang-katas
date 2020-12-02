@@ -2,13 +2,13 @@ package day1
 
 import (
 	"fmt"
-	"github.com/jlevitt/katas/advent2019"
 	"log"
 	"strconv"
+	"github.com/jlevitt/katas/advent"
 )
 
 func PartTwo(path string) {
-	moduleMasses := advent2019.ReadInputLines(path)
+	moduleMasses := advent.ReadInputLines(path)
 
 	totalFuelRequired := 0
 	for _, massStr := range moduleMasses {
