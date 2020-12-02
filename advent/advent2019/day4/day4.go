@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func PartOne(path string) {
+func PartOne(path string) error {
 	min := 193651
 	max := 649729
 
@@ -20,10 +20,12 @@ func PartOne(path string) {
 	}
 
 	fmt.Printf("Total matches: %v\n", matches)
+
+	return nil
 }
 
-func PartTwo(path string) {
-
+func PartTwo(path string) error {
+	return nil
 }
 
 func hasRun(num []int) bool {

@@ -2,19 +2,20 @@ package day3
 
 import (
 	"fmt"
-	"github.com/jlevitt/katas/advent/advent2019/day3/wiring"
-	"log"
+
 	"github.com/jlevitt/katas/advent"
+	"github.com/jlevitt/katas/advent/advent2019/day3/wiring"
+	"github.com/jlevitt/katas/advent/input"
 )
 
-func PartOne(path string) {
-	lines := advent.ReadInputLines(path)
+func PartOne(path string) error {
+	lines := input.ReadInputLines(path)
 	grid := wiring.NewWireGrid()
 
 	for i, description := range lines {
 		wire, err := wiring.NewWire(description)
 		if err != nil {
-			log.Fatalf("Got error parsing line %v: %v\n", i, err)
+			return fmt.Errorf("got error parsing line %v: %w\n", i, err)
 		}
 		grid.AddWire(wire)
 	}
@@ -26,25 +27,27 @@ func PartOne(path string) {
 
 	shortestDistance, err := advent.Min(intersectionDistances)
 	if err != nil {
-		log.Fatal("No intersections found", err)
+		fmt.Errorf("no intersections found: %w", err)
 	}
 
 	fmt.Printf("Shortest distance: %v\n", shortestDistance)
+
+	return nil
 }
 
-func PartTwo(path string) {
-	lines := advent.ReadInputLines(path)
+func PartTwo(path string) error {
+	lines := input.ReadInputLines(path)
 	grid := wiring.NewWireGrid()
 
 	wire1, err := wiring.NewWire(lines[0])
 	if err != nil {
-		log.Fatalf("Got error parsing line 1: %v\n", err)
+		return fmt.Errorf("got error parsing line 1: %w\n", err)
 	}
 	grid.AddWire(wire1)
 
 	wire2, err := wiring.NewWire(lines[1])
 	if err != nil {
-		log.Fatalf("Got error parsing line 2: %v\n", err)
+		return fmt.Errorf("got error parsing line 2: %w\n", err)
 	}
 	grid.AddWire(wire2)
 
@@ -56,8 +59,10 @@ func PartTwo(path string) {
 
 	shortestDistance, err := advent.Min(intersectionDistances)
 	if err != nil {
-		log.Fatal("No intersections found", err)
+		return fmt.Errorf("no intersections found: %w", err)
 	}
 
 	fmt.Printf("Shortest distance: %v\n", shortestDistance)
+
+	return nil
 }

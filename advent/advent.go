@@ -1,31 +1,8 @@
 package advent
 
 import (
-	"bufio"
-	"log"
 	"errors"
-	"os"
 )
-
-func ReadInputLines(path string) []string{
-	file, err := os.Open(path)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	var result []string
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := scanner.Text()
-
-		result = append(result, line)
-	}
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
-	}
-
-	return result
-}
 
 func Min(values []int) (int, error) {
 	if len(values) == 0 {
