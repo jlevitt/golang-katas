@@ -38,7 +38,7 @@ func countValidLines(lines []string, r rules.Rule) ([]string, error) {
 	for i, l := range lines {
 		line, err := parse.NewLine(l)
 		if err != nil {
-			return nil, fmt.Errorf("parsing line %v: %w", i, err)
+			return nil, fmt.Errorf("parsing line %v: %w", i+1, err)
 		}
 
 		if r(line) {
