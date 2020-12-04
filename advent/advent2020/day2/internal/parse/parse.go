@@ -20,19 +20,19 @@ func NewLine(line string) (Line, error) {
 		return Line{}, fmt.Errorf("line didn't match expected format: %v", line)
 	}
 
-	min, err := strconv.Atoi(matches[1])
+	a, err := strconv.Atoi(matches[1])
 	if err != nil {
 		return Line{}, err
 	}
 
-	max, err := strconv.Atoi(matches[2])
+	b, err := strconv.Atoi(matches[2])
 	if err != nil {
 		return Line{}, err
 	}
 
 	return Line{
-		A:        min,
-		B:        max,
+		A:        a,
+		B:        b,
 		Char:     matches[3],
 		Password: matches[4],
 	}, nil
