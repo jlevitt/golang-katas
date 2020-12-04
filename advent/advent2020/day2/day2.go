@@ -10,36 +10,38 @@ import (
 
 func PartOne(path string) error {
 	lines := input.ReadInputLines(path)
-	var valid []string
-
-	for i, l := range lines {
-		line, err := parseLine(l)
-		if err != nil {
-			return fmt.Errorf("parsing line %v: %w", i, err)
-		}
-
-		rule := containsCharRule{
-			min:  line.min,
-			max:  line.max,
-			char: line.char,
-		}
-
-		if rule.Matches(line.password) {
-			valid = append(valid, line.password)
-		}
+	valid, err := countValidLines(lines, containsChar)
+	if err != nil {
+		return err
 	}
-
-	fmt.Printf("Found %v valid lines:\n", len(valid))
 
 	for _, v := range valid {
 		fmt.Printf("%v\n", v)
 	}
 
+	fmt.Printf("\nFound %v valid lines:\n", len(valid))
+
 	return nil
 }
 
+func countValidLines(lines []string, r rule) ([]string, error) {
+	var valid []string
+
+	for i, l := range lines {
+		line, err := parseLine(l)
+		if err != nil {
+			return nil, fmt.Errorf("parsing line %v: %w", i, err)
+		}
+
+		if r(line) {
+			valid = append(valid, line.password)
+		}
+	}
+	return valid, nil
+}
+
 type parsedLine struct {
-	min, max       int
+	a, b           int
 	char, password string
 }
 
@@ -63,8 +65,8 @@ func parseLine(line string) (parsedLine, error) {
 	}
 
 	return parsedLine{
-		min:      min,
-		max:      max,
+		a:        min,
+		b:        max,
 		char:     matches[3],
 		password: matches[4],
 	}, nil

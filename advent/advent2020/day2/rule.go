@@ -2,17 +2,10 @@ package day2
 
 import "strings"
 
-type rule interface {
-	matches(string) bool
-}
+type rule = func(line parsedLine) bool
 
-type containsCharRule struct {
-	min, max int
-	char     string
-}
+func containsChar(line parsedLine) bool {
+	count := strings.Count(line.password, line.char)
 
-func (c containsCharRule) Matches(s string) bool {
-	count := strings.Count(s, c.char)
-
-	return c.min <= count && count <= c.max
+	return line.a <= count && count <= line.b
 }
