@@ -2,15 +2,23 @@ package day2
 
 import (
 	"fmt"
-	"regexp"
-	"strconv"
 
+	"github.com/jlevitt/katas/advent/advent2020/day2/internal/parse"
+	"github.com/jlevitt/katas/advent/advent2020/day2/internal/rules"
 	"github.com/jlevitt/katas/advent/input"
 )
 
 func PartOne(path string) error {
+	return run(path, rules.CharRepeated)
+}
+
+func PartTwo(path string) error {
+	return run(path, rules.CharPositionedAt)
+}
+
+func run(path string, r rules.Rule) error {
 	lines := input.ReadInputLines(path)
-	valid, err := countValidLines(lines, containsChar)
+	valid, err := countValidLines(lines, r)
 	if err != nil {
 		return err
 	}
@@ -24,50 +32,18 @@ func PartOne(path string) error {
 	return nil
 }
 
-func countValidLines(lines []string, r rule) ([]string, error) {
+func countValidLines(lines []string, r rules.Rule) ([]string, error) {
 	var valid []string
 
 	for i, l := range lines {
-		line, err := parseLine(l)
+		line, err := parse.NewLine(l)
 		if err != nil {
 			return nil, fmt.Errorf("parsing line %v: %w", i, err)
 		}
 
 		if r(line) {
-			valid = append(valid, line.password)
+			valid = append(valid, line.Password)
 		}
 	}
 	return valid, nil
-}
-
-type parsedLine struct {
-	a, b           int
-	char, password string
-}
-
-var pattern *regexp.Regexp = regexp.MustCompile("([[:digit:]]+)-([[:digit:]]+) (.): (.+)")
-
-func parseLine(line string) (parsedLine, error) {
-	matches := pattern.FindStringSubmatch(line)
-
-	if len(matches) != 5 {
-		return parsedLine{}, fmt.Errorf("line didn't match expected format: %v", line)
-	}
-
-	min, err := strconv.Atoi(matches[1])
-	if err != nil {
-		return parsedLine{}, err
-	}
-
-	max, err := strconv.Atoi(matches[2])
-	if err != nil {
-		return parsedLine{}, err
-	}
-
-	return parsedLine{
-		a:        min,
-		b:        max,
-		char:     matches[3],
-		password: matches[4],
-	}, nil
 }
