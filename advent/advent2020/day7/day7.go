@@ -12,6 +12,7 @@ type node struct {
 	children     []*node
 	visited      bool
 	containsGold bool
+	bagCount     int
 }
 
 func (n *node) walk() {
@@ -23,6 +24,8 @@ func (n *node) walk() {
 
 	for _, child := range n.children {
 		child.walk()
+
+		//n.bagCount = 1 + child.bagCount * child.k
 		if child.bagColor == "shiny gold" || child.containsGold {
 			n.containsGold = true
 			return
@@ -54,13 +57,6 @@ func PartOne(path string) error {
 
 func buildBagMap(lines []parse.Line) map[string]*node {
 	result := map[string]*node{}
-
-	for _, line := range lines {
-		result[line.BagColor] = &node{
-			bagColor: line.BagColor,
-			children: []*node{},
-		}
-	}
 
 	for _, line := range lines {
 		parent, ok := result[line.BagColor]
