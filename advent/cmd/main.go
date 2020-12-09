@@ -11,6 +11,7 @@ import (
 	year2019day4 "github.com/jlevitt/katas/advent/advent2019/day4"
 	year2020day1 "github.com/jlevitt/katas/advent/advent2020/day1"
 	year2020day2 "github.com/jlevitt/katas/advent/advent2020/day2"
+	year2020day7 "github.com/jlevitt/katas/advent/advent2020/day7"
 )
 
 type key struct {
@@ -41,6 +42,7 @@ func main() {
 		key{year: 2020, day: 1, part: 2}: year2020day1.PartTwo,
 		key{year: 2020, day: 2, part: 1}: year2020day2.PartOne,
 		key{year: 2020, day: 2, part: 2}: year2020day2.PartTwo,
+		key{year: 2020, day: 7, part: 1}: year2020day7.PartOne,
 	}
 
 	if f, ok := dayPartLookup[key{year, day, part}]; ok {

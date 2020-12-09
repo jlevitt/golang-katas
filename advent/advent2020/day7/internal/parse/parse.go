@@ -12,8 +12,8 @@ type ChildBag struct {
 }
 
 type Line struct {
-	BagColor  string
-	ChildBags []ChildBag
+	BagColor string
+	Children []ChildBag
 }
 
 var pattern *regexp.Regexp = regexp.MustCompile("([[:digit:]])+ (.*) bag")
@@ -45,7 +45,7 @@ func NewLine(line string) (Line, error) {
 			BagColor: matches[2],
 			Count:    count,
 		}
-		result.ChildBags = append(result.ChildBags, child)
+		result.Children = append(result.Children, child)
 	}
 
 	return result, nil

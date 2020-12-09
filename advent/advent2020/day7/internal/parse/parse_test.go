@@ -11,7 +11,7 @@ func TestNewLine_Basic(t *testing.T) {
 
 	if assert.NoError(t, err) {
 		assert.Equal(t, parsedLine.BagColor, "dull black")
-		assert.Equal(t, parsedLine.ChildBags, []ChildBag{
+		assert.Equal(t, parsedLine.Children, []ChildBag{
 			{
 				BagColor: "shiny brown",
 				Count:    2,
@@ -37,6 +37,6 @@ func TestNewLine_Empty(t *testing.T) {
 
 	if assert.NoError(t, err) {
 		assert.Equal(t, parsedLine.BagColor, "muted crimson")
-		assert.Empty(t, parsedLine.ChildBags)
+		assert.Empty(t, parsedLine.Children)
 	}
 }
